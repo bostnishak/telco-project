@@ -1,0 +1,14 @@
+
+services:
+  database:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-xe-telco
+    environment:
+      - ORACLE_PASSWORD=oracle
+    ports:
+      - "1521:1521"
+    volumes:
+      # Map our table creation scripts to be the first initialized
+      - ./TABLE_CREATION_SCRIPTS.sql:/container-entrypoint-initdb.d/01_TABLE_CREATION_SCRIPTS.sql
+      # Map our generated seed data to be inserted second
+      - ./02_SEED_DATA.sql:/container-entrypoint-initdb.d/02_SEED_DATA.sql
